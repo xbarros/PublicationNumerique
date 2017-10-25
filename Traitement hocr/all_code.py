@@ -99,6 +99,9 @@ def word_in_box(list_word, list_box):
         i.append(box_content) 
     
     return list_box
+    
+def creer_excel():
+        pass
 
 if __name__ == "__main__":
     main()
