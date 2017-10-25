@@ -18,9 +18,9 @@
    </div>
    <div class='ocr_carea' id='block_1_2' title="bbox 40 317 390 395">
     <p class='ocr_par' id='par_1_2' lang='fra' title="bbox 40 317 390 395">
-     <span class='ocr_line' id='line_1_2' title="bbox 41 317 336 349; baseline 0.003 -7; x_size 32; x_descenders 6; x_ascenders 8"><span class='ocrx_word' id='word_1_2' title='bbox 41 317 198 343; x_wconf 95'>Randonnée</span> <span class='ocrx_word' id='word_1_3' title='bbox 211 317 336 349; x_wconf 96'>pédestre,</span> 
+     <span class='ocr_line' id='line_1_2' title="bbox 41 317 336 349; baseline 0.003 -7; x_size 32; x_descenders 6; x_ascenders 8"><span class='ocrx_word' id='word_1_2' title='bbox 41 317 198 343; x_wconf 95'>Randonnee</span> <span class='ocrx_word' id='word_1_3' title='bbox 211 317 336 349; x_wconf 96'>pedestre,</span> 
      </span>
-     <span class='ocr_line' id='line_1_3' title="bbox 40 363 390 395; baseline 0.003 -7; x_size 33.5; x_descenders 6.5; x_ascenders 8.5"><span class='ocrx_word' id='word_1_4' title='bbox 40 363 190 389; x_wconf 96'>randonnée</span> <span class='ocrx_word' id='word_1_5' title='bbox 202 371 234 389; x_wconf 96'>en</span> <span class='ocrx_word' id='word_1_6' title='bbox 248 366 390 395; x_wconf 96'>montagne</span> 
+     <span class='ocr_line' id='line_1_3' title="bbox 40 363 390 395; baseline 0.003 -7; x_size 33.5; x_descenders 6.5; x_ascenders 8.5"><span class='ocrx_word' id='word_1_4' title='bbox 40 363 190 389; x_wconf 96'>randonnee</span> <span class='ocrx_word' id='word_1_5' title='bbox 202 371 234 389; x_wconf 96'>en</span> <span class='ocrx_word' id='word_1_6' title='bbox 248 366 390 395; x_wconf 96'>montagne</span> 
      </span>
     </p>
    </div>
@@ -36,14 +36,14 @@
     </p>
 
     <p class='ocr_par' id='par_1_5' lang='fra' title="bbox 38 523 526 608">
-     <span class='ocr_line' id='line_1_6' title="bbox 40 523 526 555; baseline 0.002 -7; x_size 33; x_descenders 7; x_ascenders 8"><span class='ocrx_word' id='word_1_12' title='bbox 40 523 76 549; x_wconf 96'>Ski</span> <span class='ocrx_word' id='word_1_13' title='bbox 89 523 154 555; x_wconf 96'>alpin</span> <span class='ocrx_word' id='word_1_14' title='bbox 167 523 235 553; x_wconf 96'>(sans</span> <span class='ocrx_word' id='word_1_15' title='bbox 247 523 267 549; x_wconf 96'>la</span> <span class='ocrx_word' id='word_1_16' title='bbox 281 523 431 549; x_wconf 96'>randonnée</span> <span class='ocrx_word' id='word_1_17' title='bbox 443 524 456 549; x_wconf 96'>à</span> <span class='ocrx_word' id='word_1_18' title='bbox 469 523 526 553; x_wconf 96'>skis)</span> 
+     <span class='ocr_line' id='line_1_6' title="bbox 40 523 526 555; baseline 0.002 -7; x_size 33; x_descenders 7; x_ascenders 8"><span class='ocrx_word' id='word_1_12' title='bbox 40 523 76 549; x_wconf 96'>Ski</span> <span class='ocrx_word' id='word_1_13' title='bbox 89 523 154 555; x_wconf 96'>alpin</span> <span class='ocrx_word' id='word_1_14' title='bbox 167 523 235 553; x_wconf 96'>(sans</span> <span class='ocrx_word' id='word_1_15' title='bbox 247 523 267 549; x_wconf 96'>la</span> <span class='ocrx_word' id='word_1_16' title='bbox 281 523 431 549; x_wconf 96'>randonnee</span> <span class='ocrx_word' id='word_1_17' title='bbox 443 524 456 549; x_wconf 96'>a</span> <span class='ocrx_word' id='word_1_18' title='bbox 469 523 526 553; x_wconf 96'>skis)</span> 
      </span>
-     <span class='ocr_line' id='line_1_7' title="bbox 38 576 354 608; baseline 0 -6; x_size 31; x_descenders 6; x_ascenders 7"><span class='ocrx_word' id='word_1_19' title='bbox 38 577 155 608; x_wconf 96'>Jogging,</span> <span class='ocrx_word' id='word_1_20' title='bbox 169 584 259 602; x_wconf 96'>course</span> <span class='ocrx_word' id='word_1_21' title='bbox 270 577 283 602; x_wconf 96'>à</span> <span class='ocrx_word' id='word_1_22' title='bbox 297 576 354 608; x_wconf 96'>pied</span> 
+     <span class='ocr_line' id='line_1_7' title="bbox 38 576 354 608; baseline 0 -6; x_size 31; x_descenders 6; x_ascenders 7"><span class='ocrx_word' id='word_1_19' title='bbox 38 577 155 608; x_wconf 96'>Jogging,</span> <span class='ocrx_word' id='word_1_20' title='bbox 169 584 259 602; x_wconf 96'>course</span> <span class='ocrx_word' id='word_1_21' title='bbox 270 577 283 602; x_wconf 96'>a</span> <span class='ocrx_word' id='word_1_22' title='bbox 297 576 354 608; x_wconf 96'>pied</span> 
      </span>
     </p>
 
     <p class='ocr_par' id='par_1_6' lang='fra' title="bbox 40 630 253 660">
-     <span class='ocr_line' id='line_1_8' title="bbox 40 630 253 660; baseline 0.005 -5; x_size 32.434891; x_descenders 6.4348898; x_ascenders 8"><span class='ocrx_word' id='word_1_23' title='bbox 40 631 138 660; x_wconf 93'>Fitness,</span> <span class='ocrx_word' id='word_1_24' title='bbox 152 630 253 656; x_wconf 90'>aérobic</span> 
+     <span class='ocr_line' id='line_1_8' title="bbox 40 630 253 660; baseline 0.005 -5; x_size 32.434891; x_descenders 6.4348898; x_ascenders 8"><span class='ocrx_word' id='word_1_23' title='bbox 40 631 138 660; x_wconf 93'>Fitness,</span> <span class='ocrx_word' id='word_1_24' title='bbox 152 630 253 656; x_wconf 90'>aerobic</span> 
      </span>
     </p>
 
@@ -68,13 +68,13 @@
      </span>
      <span class='ocr_line' id='line_1_13' title="bbox 623 81 794 113; baseline 0 -7; x_size 32; x_descenders 7; x_ascenders 8"><span class='ocrx_word' id='word_1_31' title='bbox 623 81 654 106; x_wconf 96'>de</span> <span class='ocrx_word' id='word_1_32' title='bbox 667 81 687 106; x_wconf 93'>la</span> <span class='ocrx_word' id='word_1_33' title='bbox 701 81 794 113; x_wconf 92'>popula</span> 
      </span>
-     <span class='ocr_line' id='line_1_14' title="bbox 622 127 806 158; baseline 0 -7; x_size 31; x_descenders 7; x_ascenders 7"><span class='ocrx_word' id='word_1_34' title='bbox 622 127 674 151; x_wconf 95'>tion</span> <span class='ocrx_word' id='word_1_35' title='bbox 688 127 727 152; x_wconf 95'>CH</span> <span class='ocrx_word' id='word_1_36' title='bbox 740 127 806 158; x_wconf 95'>âgée</span> 
+     <span class='ocr_line' id='line_1_14' title="bbox 622 127 806 158; baseline 0 -7; x_size 31; x_descenders 7; x_ascenders 7"><span class='ocrx_word' id='word_1_34' title='bbox 622 127 674 151; x_wconf 95'>tion</span> <span class='ocrx_word' id='word_1_35' title='bbox 688 127 727 152; x_wconf 95'>CH</span> <span class='ocrx_word' id='word_1_36' title='bbox 740 127 806 158; x_wconf 95'>agee</span> 
      </span>
     </p>
    </div>
    <div class='ocr_carea' id='block_1_5' title="bbox 599 172 807 197">
     <p class='ocr_par' id='par_1_11' lang='fra' title="bbox 599 172 807 197">
-     <span class='ocr_line' id='line_1_15' title="bbox 599 172 807 197; baseline 0 0; x_size 30.342857; x_descenders 5.3428574; x_ascenders 8"><span class='ocrx_word' id='word_1_37' title='bbox 599 172 630 197; x_wconf 96'>de</span> <span class='ocrx_word' id='word_1_38' title='bbox 645 174 676 197; x_wconf 96'>15</span> <span class='ocrx_word' id='word_1_39' title='bbox 689 173 702 197; x_wconf 96'>à</span> <span class='ocrx_word' id='word_1_40' title='bbox 716 174 750 197; x_wconf 96'>74</span> <span class='ocrx_word' id='word_1_41' title='bbox 761 180 807 197; x_wconf 96'>ans</span> 
+     <span class='ocr_line' id='line_1_15' title="bbox 599 172 807 197; baseline 0 0; x_size 30.342857; x_descenders 5.3428574; x_ascenders 8"><span class='ocrx_word' id='word_1_37' title='bbox 599 172 630 197; x_wconf 96'>de</span> <span class='ocrx_word' id='word_1_38' title='bbox 645 174 676 197; x_wconf 96'>15</span> <span class='ocrx_word' id='word_1_39' title='bbox 689 173 702 197; x_wconf 96'>a</span> <span class='ocrx_word' id='word_1_40' title='bbox 716 174 750 197; x_wconf 96'>74</span> <span class='ocrx_word' id='word_1_41' title='bbox 761 180 807 197; x_wconf 96'>ans</span> 
      </span>
     </p>
    </div>

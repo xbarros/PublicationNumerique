@@ -25,21 +25,6 @@ def main():
         min_height=40,
         min_width=10,
         )
- 
-    write_text_from_panels(img_array, panel_boxes)
- 
-def write_text_from_panels(image_array, panels):
-    
-
-    for i in range(len(panels)):
-        # panels[i] --> coordonnee de chaque boite
-        panel_array = image_array[panels[i]]
-        
-        # transforme array en image et la sauve...
-        im = Image.fromarray(panel_array)
-        
-        imshow(array(im))
-        show()
 
 def find_objects_with_size(img_array, min_height=None, max_height=None, min_width=None, max_width=None):
     
@@ -55,9 +40,10 @@ def find_objects_with_size(img_array, min_height=None, max_height=None, min_widt
             if max_height > boxe[0].stop - boxe[0].start or max_height == None: # hauteur max
                 if min_width < boxe[1].stop - boxe[1].start or min_width == None: # largeur min
                     if max_width > boxe[1].stop - boxe[1].start or max_width == None: # largeur max
-                        panel_boxes.append([boxe[0].start, boxe[1].start, boxe[0].stop, boxe[1].stop]) 
+                        panel_boxes.append([int(boxe[0].start), int(boxe[1].start), int(boxe[0].stop), int(boxe[1].stop)]) 
                         
             # ajouter coordonnee boite ici !!!!!!!!!!!-------------------
+            
     print panel_boxes
     return panel_boxes
     
@@ -67,7 +53,6 @@ def choose_img():
     
     img_tableau_noir = img.point(lambda i: (i-127)*2.3).point(lambda i: 0 if i < 250 else 255)
     img_tableau_blanc = img_tableau_noir.point(lambda i: 0 if i == 255 else 255)
-    #purifier image de base
     img = img.point(lambda i: (i-127)*2.3).point(lambda i: 0 if i < 50 else 255)
     
     return img_tableau_blanc, img
