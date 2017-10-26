@@ -4,16 +4,55 @@ from pylab import array, imshow, show
 from scipy.ndimage import measurements
 import os
 import xlwt
-import Tkinter
-import tkFileDialog
+import Tkinter, tkFileDialog
+
+from tkinter import messagebox
 
 def main():
 
-    word_table = word_in_box(word_coord(),boite_coord())
-    creer_xls(coord_excel(word_table))
+    path, file_name, file_extension = choose_file()
+
+    if path == "":
+        pass
+    else:
+        
+        word_table = word_in_box(word_coord(),boite_coord())
+        creer_xls(coord_excel(word_table))
         
 
         
+def choose_file():
+
+    root = Tkinter.Tk()
+    root.withdraw()
+
+    filepath = tkFileDialog.askopenfilename(title="Ouvrir une image ou un pdf a convertir",filetypes=[("all files",".*")])
+    file_name, file_extension = os.path.splitext(os.path.basename(filepath))
+
+    # verifier que c'est un fichier image
+    file_allowed = ["jpg", "png", "PNG", "JPG", "tif", "tiff", "TIF" "TIFF", "PDF", "pdf"]
+    
+    while file_extension[1:] not in file_allowed:
+        
+        if filepath == "":
+            messagebox.showwarning("Warning","Warning, You don't choose anything")
+            answer = messagebox.askretrycancel("Question", "Do you want to try it again?")
+            if answer == False:
+                break
+
+        else:
+            messagebox.showerror("Error", "Error, You must choose an image file or pdf file !")
+            answer = messagebox.askretrycancel("Question", "Do you want to try it again?")
+            if answer == False:
+                break
+        
+        filepath = tkFileDialog.askopenfilename(title="Ouvrir une image ou un pdf a convertir",filetypes=[("all files",".*")])
+        file_name, file_extension = os.path.splitext(os.path.basename(filepath))
+    
+    root.destroy()
+
+    return filepath, file_name, file_extension
+    
 # utiliser image tif
 def boite_coord():
     
