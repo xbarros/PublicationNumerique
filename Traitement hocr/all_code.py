@@ -4,23 +4,22 @@ from pylab import array, imshow, show
 from scipy.ndimage import measurements
 import os
 import xlwt
-
+import Tkinter
+import tkFileDialog
 
 def main():
 
-    #print boite_coord()
-    #print word_coord()
-    
     word_table = word_in_box(word_coord(),boite_coord())
-    coord_excel(word_table)
-  
-    
+    creer_xls(coord_excel(word_table))
+        
+
+        
 # utiliser image tif
 def boite_coord():
     
     img = Image.open("petit2.tif")
     
-    # ADAPTER selon le tableau il faudra changer la valeur "(i-127)*2.3)"
+    # /!\ ADAPTER selon le tableau il faudra changer la valeur "(i-127)*2.3)"
     img_tableau_noir = img.point(lambda i: (i-127)*2.3).point(lambda i: 0 if i < 250 else 255)
     
     img_table = img_tableau_noir.point(lambda i: 0 if i == 255 else 255)
@@ -32,7 +31,7 @@ def boite_coord():
     labels, num_obects = measurements.label(img_block_array)
     boxes = measurements.find_objects(labels)
     
-    # ADAPTER selon le tableau
+    # /!\ ADAPTER selon le tableau
     min_height, max_height, min_width, max_width = 30, 300, 10, 700
     
     # trier les boite avec bonne taille
@@ -76,7 +75,7 @@ def word_coord():
             # trouver le contenu du mot
             span = minidom.parseString(refword.toxml())
             span_content = [p.firstChild.wholeText for p in span.getElementsByTagName("span") if p.firstChild.nodeType == p.TEXT_NODE]
-            # si vide --> ADAPTER trouver qqch de tout le temps ok
+            # si vide --> /!\ ADAPTER trouver qqch de tout le temps ok
             if len(span_content) == 0:
                 span_content = [p.firstChild.wholeText for p in span.getElementsByTagName("strong") if p.firstChild.nodeType == p.TEXT_NODE]
             # ajouter valeur dans la liste des coordonnee
@@ -126,8 +125,8 @@ def coord_excel(word_table):
 
     # valeur de coordonnee sur image corespond a 
     # valeur de coordonnee de tableau excel
-    x_coord = {k: v+1 for v, k in enumerate(x_coord)}
-    y_coord = {k: v+1 for v, k in enumerate(y_coord)}
+    x_coord = {k: v for v, k in enumerate(x_coord)}
+    y_coord = {k: v for v, k in enumerate(y_coord)}
         
     # transformee coordonnee sur image en coordonnee de tableau excel
     for i in x_coord.keys():
@@ -141,7 +140,31 @@ def coord_excel(word_table):
     
     return word_table
     
+def creer_xls(contenu):
 
+    # creer feuille excel
+    wb = xlwt.Workbook(encoding="utf-8")
+    ws = wb.add_sheet("XXX")
+    # creer fenetre de dialogue
+    root = Tkinter.Tk()
+    root.withdraw() #use to hide tkinter window
+    
+    # remplire la  feuille excel
+    for i in range(len(contenu)):
+        ws.write(contenu[i][1], contenu[i][0], contenu[i][2])
+
+    # choisir le dossier de sauvegarde
+    currdir = os.getcwd()
+    path_to_save = tkFileDialog.askdirectory(parent=root, initialdir=currdir, title="Please select a directory to save your excel file")
+    
+    # sauver le dossier excel 
+    if len(path_to_save) > 0:
+        print "You chose %s" % path_to_save
+        wb.save(os.path.normpath(path_to_save)+"\image_to_excel.xls") 
+    # si pas de lien rentre, ne rien faire
+    else:
+        print "Le fichier n'a pas ete sauvegarde" 
+  
 
 if __name__ == "__main__":
     main()
