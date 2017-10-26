@@ -3,6 +3,7 @@ from PIL import Image
 from pylab import array, imshow, show
 from scipy.ndimage import measurements
 import os
+import xlwt
 
 
 def main():
@@ -11,7 +12,8 @@ def main():
     #print word_coord()
     
     word_table = word_in_box(word_coord(),boite_coord())
-    print word_table
+    coord_excel(word_table)
+  
     
 # utiliser image tif
 def boite_coord():
@@ -94,14 +96,52 @@ def word_in_box(list_word, list_box):
             i[0] < j[2] < i[2] and\
             i[1] < j[1] < i[3] and\
             i[1] < j[3] < i[3] :
-                box_content = box_content + str(j[4]) + " "
+                if box_content == "":
+                    box_content = box_content + str(j[4])
+                else: 
+                    box_content = box_content + " " + str(j[4]) 
         # ajoute a la coordonnee de la boite son contenue
-        i.append(box_content) 
-    
+        del i[2]
+        del i[2]
+        i.append(box_content)
+        
     return list_box
     
-def creer_excel():
-        pass
+    
+def coord_excel(word_table):
+    
+    x_coord = list()
+    y_coord = list()
+
+    # obtenir les coordonnee x et y 
+    for i in word_table:
+        if i[0] not in x_coord:
+            x_coord.append(i[0])
+        if i[1] not in y_coord:
+            y_coord.append(i[1])
+        
+    # ordonner par ordre croissant
+    x_coord = sorted(x_coord)
+    y_coord = sorted(y_coord)
+
+    # valeur de coordonnee sur image corespond a 
+    # valeur de coordonnee de tableau excel
+    x_coord = {k: v+1 for v, k in enumerate(x_coord)}
+    y_coord = {k: v+1 for v, k in enumerate(y_coord)}
+        
+    # transformee coordonnee sur image en coordonnee de tableau excel
+    for i in x_coord.keys():
+        for j in word_table:
+            if i == j[0]:
+                j[0] = x_coord[i]
+    for i in y_coord.keys():
+        for j in word_table:
+            if i == j[1]:
+                j[1] = y_coord[i]
+    
+    return word_table
+    
+
 
 if __name__ == "__main__":
     main()
