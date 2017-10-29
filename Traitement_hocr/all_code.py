@@ -5,6 +5,8 @@ from scipy.ndimage import measurements
 import os
 import xlwt
 import Tkinter, tkFileDialog
+import subprocess as sp
+
 
 from tkinter import messagebox
 
@@ -15,12 +17,23 @@ def main():
     if path == "":
         pass
     else:
+        print file_extension
+        if file_extension in [".pdf", ".PDF"]:
+            pdf_to_tiff(path)
+        """
+        word = word_coord()
         
-        word_table = word_in_box(word_coord(),boite_coord())
-        creer_xls(coord_excel(word_table))
+        boite = boite_coord()
         
+        word_table = word_in_box( word, boite )
+        
+        contenu_excel = coord_excel(word_table)
+        
+        creer_xls(contenu_excel)
+        """
+    
 
-        
+# choisir son fichier
 def choose_file():
 
     root = Tkinter.Tk()
@@ -52,8 +65,19 @@ def choose_file():
     root.destroy()
 
     return filepath, file_name, file_extension
-    
-# utiliser image tif
+ 
+def pdf_to_tiff(path_pdf):
+
+    pdf = os.path.basename(path_pdf)
+    path = path_pdf[:-len(pdf)]
+
+    commande = "convert -density 400 "+path_pdf+" -depth 8 -strip -alpha off "+path+pdf[:-4]+".tiff"
+
+    output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
+    outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
+    print "2"
+        
+# trouver les coordonnee des cases
 def boite_coord():
     
     img = Image.open("petit2.tif")
@@ -123,7 +147,8 @@ def word_coord():
             all_word.append(bbox_coord)
             
     return all_word
-        
+  
+# mettre chaque contenu de texte dans la boite dans lequel il se trouve  
 def word_in_box(list_word, list_box):
     
     for i in list_box:
@@ -145,7 +170,7 @@ def word_in_box(list_word, list_box):
         
     return list_box
     
-    
+# donner les coordonnee utilisable pour creer un doc excel   
 def coord_excel(word_table):
     
     x_coord = list()
@@ -178,6 +203,7 @@ def coord_excel(word_table):
                 j[1] = y_coord[i]
     
     return word_table
+    
     
 def creer_xls(contenu):
 
