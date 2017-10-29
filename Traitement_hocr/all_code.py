@@ -36,25 +36,7 @@ def main():
         
         creer_xls(contenu_excel)
         
-    
-def text_img(path_to_img, path_end):
-        
-        # /!\ MODIFIER demander ou se trouve tesseract
-        # pour travailler ou se trouve tesseract
-        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\"))
-        
-        path_basename = path_to_img[:-len(path_end)]
-
-        # donner un ordre a la ligne de commande
-        commande = "tesseract " + path_to_img +" "+ path_basename + " -l fra hocr"
-
-        output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
-        outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
-        
-        os.rename( path_basename + ".hocr", path_basename + ".xml" )
-        
-        return os.path.normpath(path_basename + ".xml")
-        
+            
 # choisir son fichier
 def choose_file():
 
@@ -99,6 +81,26 @@ def pdf_to_tiff(path_pdf):
     outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
     
     return path+pdf[:-4]+".tiff"
+        
+        
+def text_img(path_to_img, path_end):
+        
+        # /!\ MODIFIER demander ou se trouve tesseract
+        # pour travailler ou se trouve tesseract
+        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\"))
+        
+        path_basename = path_to_img[:-len(path_end)]
+
+        # donner un ordre a la ligne de commande
+        commande = "tesseract " + path_to_img +" "+ path_basename + " -l fra hocr"
+
+        output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
+        outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
+        
+        os.rename( path_basename + ".hocr", path_basename + ".xml" )
+        
+        return os.path.normpath(path_basename + ".xml")
+        
         
 # trouver les coordonnee des cases
 def boite_coord(path_to_img):
