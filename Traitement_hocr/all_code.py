@@ -14,25 +14,47 @@ def main():
 
     path, file_name, file_extension = choose_file()
 
-    if path == "":
-        pass
-    else:
-        print file_extension
-        if file_extension in [".pdf", ".PDF"]:
-            pdf_to_tiff(path)
-        """
-        word = word_coord()
+    if path != "":
         
-        boite = boite_coord()
+        if file_extension in [".pdf", ".PDF"]:
+        
+            path = pdf_to_tiff(path)
+            file_extension = ".tiff"
+            
+            
+        xml_path = text_img(path, file_extension)
+        
+        os.chdir(os.path.normpath(path[:-len(file_name+file_extension)]))
+        
+        word = word_coord(xml_path)
+        
+        boite = boite_coord(path)
         
         word_table = word_in_box( word, boite )
         
         contenu_excel = coord_excel(word_table)
         
         creer_xls(contenu_excel)
-        """
+        
     
+def text_img(path_to_img, path_end):
+        
+        # /!\ MODIFIER demander ou se trouve tesseract
+        # pour travailler ou se trouve tesseract
+        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\"))
+        
+        path_basename = path_to_img[:-len(path_end)]
 
+        # donner un ordre a la ligne de commande
+        commande = "tesseract " + path_to_img +" "+ path_basename + " -l fra hocr"
+
+        output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
+        outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
+        
+        os.rename( path_basename + ".hocr", path_basename + ".xml" )
+        
+        return os.path.normpath(path_basename + ".xml")
+        
 # choisir son fichier
 def choose_file():
 
@@ -75,12 +97,13 @@ def pdf_to_tiff(path_pdf):
 
     output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
     outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
-    print "2"
+    
+    return path+pdf[:-4]+".tiff"
         
 # trouver les coordonnee des cases
-def boite_coord():
+def boite_coord(path_to_img):
     
-    img = Image.open("petit2.tif")
+    img = Image.open(path_to_img)
     
     # /!\ ADAPTER selon le tableau il faudra changer la valeur "(i-127)*2.3)"
     img_tableau_noir = img.point(lambda i: (i-127)*2.3).point(lambda i: 0 if i < 250 else 255)
@@ -116,12 +139,12 @@ def boite_coord():
     
 # utiliser document xml
 # REMARQUE /!\ NE MARCHE PAS AVEC CHARACTERE SPECIEUX /!\
-def word_coord():
+def word_coord(xml_path):
 
     all_word = list()
 
     # Import xml doc
-    xmldoc = minidom.parse('petit2.xml')
+    xmldoc = minidom.parse(xml_path)
     # garde que span
     reflist = xmldoc.getElementsByTagName('span')
     #print(len(reflist))
