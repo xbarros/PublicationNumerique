@@ -1,54 +1,69 @@
+#/usr/bin/env python
+# coding: utf-8
+
 from xml.dom import minidom
 from PIL import Image
-from pylab import array, imshow, show
+from pylab import array, imshow, show, ginput, close
 from scipy.ndimage import measurements
 import os
 import xlwt
 import Tkinter, tkFileDialog
 import subprocess as sp
-
-
 from tkinter import messagebox
+from tkMessageBox import showinfo
+
 
 def main():
 
+    # choisir son fichier
     path, file_name, file_extension = choose_file()
 
     if path != "":
         
         if file_extension in [".pdf", ".PDF"]:
         
+            # convertir le pdf en fichier image grace a imagemagic
             path = pdf_to_tiff(path)
             file_extension = ".tiff"
-            
-            
+        
+        path, file_name, file_extension = select_img(path, file_name, file_extension)
+        
+
+        
+        # analyser l'image avec tesseract    
         xml_path = text_img(path, file_extension)
+        os.chdir(os.path.normpath(path[:-len(file_name+file_extension)])) # revenir la ou on traite le fichier (optionel)
         
-        os.chdir(os.path.normpath(path[:-len(file_name+file_extension)]))
+        #xml_path = "C:\Users\Xavier\Desktop\Projet\\PublicationNumerique\Traitement_hocr\petit2(1).xml" # pour des test.. a supprimer !
         
+        # utiliser document xml et l'image pour trouver les coordonnees
         word = word_coord(xml_path)
-        
         boite = boite_coord(path)
-        
+        print word
+        # mettre les mots dans les boites
         word_table = word_in_box( word, boite )
         
+        # transformer coordonnee de l'image en coordonnee excel
         contenu_excel = coord_excel(word_table)
         
+        # creer tableau excel
         creer_xls(contenu_excel)
-        
-            
+         
+    
 # choisir son fichier
 def choose_file():
 
     root = Tkinter.Tk()
     root.withdraw()
 
+    # demander a l'utilisateur un fichier a traiter
     filepath = tkFileDialog.askopenfilename(title="Ouvrir une image ou un pdf a convertir",filetypes=[("all files",".*")])
     file_name, file_extension = os.path.splitext(os.path.basename(filepath))
 
     # verifier que c'est un fichier image
     file_allowed = ["jpg", "png", "PNG", "JPG", "tif", "tiff", "TIF" "TIFF", "PDF", "pdf"]
     
+    # si l'utilisateur ne rentre pas qqch de correcte, redemmander 
     while file_extension[1:] not in file_allowed:
         
         if filepath == "":
@@ -70,6 +85,7 @@ def choose_file():
 
     return filepath, file_name, file_extension
  
+# convertir le pdf en fichier image grace a imagemagic
 def pdf_to_tiff(path_pdf):
 
     pdf = os.path.basename(path_pdf)
@@ -82,12 +98,41 @@ def pdf_to_tiff(path_pdf):
     
     return path+pdf[:-4]+".tiff"
         
-        
+                  
+def select_img(img_path, file_name, file_extension):
+    
+    root = Tkinter.Tk()
+    root.withdraw() 
+    
+    im = array(Image.open(img_path))
+    imshow(im)
+   
+    showinfo("Title", 'Please click 2 points')
+
+    coord = ginput(2)
+       
+    
+    print [(coord[0][0],coord[0][1],coord[1][0],coord[1][0])]
+    
+    img = Image.open(img_path)
+    img_crop = img.crop((min(coord[0][0],coord[1][0]),min(coord[0][1],coord[1][1]),max(coord[0][0],coord[1][0]),max(coord[0][1],coord[1][1])))
+    """
+    print img.getpixel((coord[0][0],coord[0][1])),"1" 
+    """
+    path = img_path[:-len(file_name + file_extension)]
+    
+    img_crop.save(path+"img_crop.tif")
+    img_path =  path + "img_crop.tif"
+    
+    close()
+    root.destroy()
+    return img_path, "img_crop", ".tif"
+  
+# analyser l'image avec tesseract
 def text_img(path_to_img, path_end):
         
-        # /!\ MODIFIER demander ou se trouve tesseract
         # pour travailler ou se trouve tesseract
-        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\"))
+        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\")) # /!\ MODIFIER selon son chemin vers Tesseract-OCR
         
         path_basename = path_to_img[:-len(path_end)]
 
@@ -97,7 +142,16 @@ def text_img(path_to_img, path_end):
         output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
         outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
         
-        os.rename( path_basename + ".hocr", path_basename + ".xml" )
+
+        if not os.path.isfile(path_basename + ".xml"): 
+            os.rename( path_basename + ".hocr", path_basename + ".xml" )
+        else:
+            i=1
+            while True:
+                if not os.path.isfile(path_basename + "("+str(i)+").xml"):
+                    os.rename( path_basename + ".hocr", path_basename + "("+str(i)+").xml" )
+                    break
+                i+=1
         
         return os.path.normpath(path_basename + ".xml")
         
@@ -120,7 +174,7 @@ def boite_coord(path_to_img):
     boxes = measurements.find_objects(labels)
     
     # /!\ ADAPTER selon le tableau
-    min_height, max_height, min_width, max_width = 30, 300, 10, 700
+    min_height, max_height, min_width, max_width = 30, 300, 100, 800
     
     # trier les boite avec bonne taille
     panel_boxes = list()
@@ -131,16 +185,14 @@ def boite_coord(path_to_img):
                     if max_width > boxe[1].stop - boxe[1].start or max_width == None: # largeur max
                         panel_boxes.append([int(boxe[1].start), int(boxe[0].start), int(boxe[1].stop), int(boxe[0].stop)]) 
                         
-    """
+    
     imshow(img_tableau_noir)
     show()
-    """
     
     return panel_boxes
 
     
 # utiliser document xml
-# REMARQUE /!\ NE MARCHE PAS AVEC CHARACTERE SPECIEUX /!\
 def word_coord(xml_path):
 
     all_word = list()
@@ -160,16 +212,25 @@ def word_coord(xml_path):
             bbox_coord = bbox_all[0].split()
             bbox_coord.remove("bbox")
             bbox_coord = map(int, bbox_coord) # in python3 --> bbox_coord = list(map(int, bbox_coord))
+            
+            
+            span = minidom.parseString(refword.toxml().encode("utf-8"))
             # trouver le contenu du mot
-            span = minidom.parseString(refword.toxml())
-            span_content = [p.firstChild.wholeText for p in span.getElementsByTagName("span") if p.firstChild.nodeType == p.TEXT_NODE]
-            # si vide --> /!\ ADAPTER trouver qqch de tout le temps ok
+            span_content = [p.nodeName for p in span.getElementsByTagName("span") if p.firstChild.nodeType == p.TEXT_NODE]
+            
+            # si vide alors autre chose qui fonctionne
             if len(span_content) == 0:
-                span_content = [p.firstChild.wholeText for p in span.getElementsByTagName("strong") if p.firstChild.nodeType == p.TEXT_NODE]
+                root = span.documentElement
+                for node in root.childNodes:
+                    if node.nodeType != node.TEXT_NODE:
+                        span_content = node.firstChild.nodeValue
+                        
             # ajouter valeur dans la liste des coordonnee
             bbox_coord.append(span_content[0])
+            print span_content, "2"
             
             all_word.append(bbox_coord)
+            
             
     return all_word
   
@@ -185,14 +246,14 @@ def word_in_box(list_word, list_box):
             i[1] < j[1] < i[3] and\
             i[1] < j[3] < i[3] :
                 if box_content == "":
-                    box_content = box_content + str(j[4])
+                    box_content = box_content + str(j[4].encode("utf-8"))
                 else: 
-                    box_content = box_content + " " + str(j[4]) 
+                    box_content = box_content + " " + str(j[4].encode("utf-8")) 
         # ajoute a la coordonnee de la boite son contenue
         del i[2]
         del i[2]
         i.append(box_content)
-        
+
     return list_box
     
 # donner les coordonnee utilisable pour creer un doc excel   
