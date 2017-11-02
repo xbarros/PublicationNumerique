@@ -15,40 +15,65 @@ from tkMessageBox import showinfo
 
 def main():
 
-    # choisir son fichier
-    path, file_name, file_extension = choose_file()
+    root = Tkinter.Tk()
+    root.withdraw()
+    
+    reponse = messagebox.askyesno("Title","Do you want to analyse a text ?")
+    if reponse:
+        # choisir son fichier
+        path, file_name, file_extension = choose_file()
 
-    if path != "":
-        
-        if file_extension in [".pdf", ".PDF"]:
-        
-            # convertir le pdf en fichier image grace a imagemagic
-            path = pdf_to_tiff(path)
-            file_extension = ".tiff"
-        
-        path, file_name, file_extension = select_img(path, file_name, file_extension)
-        
+        if path != "":
+            
+            if file_extension in [".pdf", ".PDF"]:
+            
+                # convertir le pdf en fichier image grace a imagemagic
+                path = pdf_to_tiff(path)
+                file_extension = ".tiff"
+                
+            reponse = messagebox.askyesno("Title","Do you want to analyse a all the picture ?")
+            if not reponse:
+                path, file_name, file_extension = select_img(path, file_name, file_extension)
+    
+            text_img(path, file_extension)
+                
+    else:
+        reponse = messagebox.askyesno("Title","Do you want to analyse a table ?")
+        if reponse:
+            # choisir son fichier
+            path, file_name, file_extension = choose_file()
 
-        
-        # analyser l'image avec tesseract    
-        xml_path = text_img(path, file_extension)
-        os.chdir(os.path.normpath(path[:-len(file_name+file_extension)])) # revenir la ou on traite le fichier (optionel)
-        
-        #xml_path = "C:\Users\Xavier\Desktop\Projet\\PublicationNumerique\Traitement_hocr\petit2(1).xml" # pour des test.. a supprimer !
-        
-        # utiliser document xml et l'image pour trouver les coordonnees
-        word = word_coord(xml_path)
-        boite = boite_coord(path)
-        print word
-        # mettre les mots dans les boites
-        word_table = word_in_box( word, boite )
-        
-        # transformer coordonnee de l'image en coordonnee excel
-        contenu_excel = coord_excel(word_table)
-        
-        # creer tableau excel
-        creer_xls(contenu_excel)
-         
+            if path != "":
+                
+                if file_extension in [".pdf", ".PDF"]:
+                
+                    # convertir le pdf en fichier image grace a imagemagic
+                    path = pdf_to_tiff(path)
+                    file_extension = ".tiff"
+                   
+                    reponse = messagebox.askyesno("Title","Do you want to analyse a all the picture ?")
+                    if not reponse:
+                        path, file_name, file_extension = select_img(path, file_name, file_extension)
+           
+                    # analyser l'image avec tesseract    
+                    xml_path = table_img(path, file_extension)
+                    os.chdir(os.path.normpath(path[:-len(file_name+file_extension)])) # revenir la ou on traite le fichier (optionel)
+                    
+                    #xml_path = "C:\Users\Xavier\Desktop\Projet\\PublicationNumerique\Traitement_hocr\petit2(1).xml" # pour des test.. a supprimer !
+                    
+                    # utiliser document xml et l'image pour trouver les coordonnees
+                    word = word_coord(xml_path)
+                    boite = boite_coord(path)
+                    print word
+                    # mettre les mots dans les boites
+                    word_table = word_in_box( word, boite )
+                    
+                    # transformer coordonnee de l'image en coordonnee excel
+                    contenu_excel = coord_excel(word_table)
+                    
+                    # creer tableau excel
+                    creer_xls(contenu_excel)
+
     
 # choisir son fichier
 def choose_file():
@@ -129,7 +154,7 @@ def select_img(img_path, file_name, file_extension):
     return img_path, "img_crop", ".tif"
   
 # analyser l'image avec tesseract
-def text_img(path_to_img, path_end):
+def table_img(path_to_img, path_end):
         
         # pour travailler ou se trouve tesseract
         os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\")) # /!\ MODIFIER selon son chemin vers Tesseract-OCR
@@ -316,6 +341,56 @@ def creer_xls(contenu):
     else:
         print "Le fichier n'a pas ete sauvegarde" 
   
+# analyser l'image avec tesseract
+def text_img(path_to_img, path_end):
+        
+        # pour travailler ou se trouve tesseract
+        os.chdir(os.path.normpath(r"C:\Program Files\Tesseract-OCR\\")) # /!\ MODIFIER selon son chemin vers Tesseract-OCR
+        
+        path_basename = path_to_img[:-len(path_end)]
+
+        # donner un ordre a la ligne de commande
+        commande = "tesseract " + path_to_img +" "+ path_basename + " -l fra"
+
+        output = sp.Popen(commande, stdout=sp.PIPE, shell=True)
+        outtext = output.communicate()[0].decode(encoding="utf-8", errors="ignore")
+        
+
+        # sauvegarder le text de l'image
+        text_file = open(path_basename+".txt", "r")
+        text_image = text_file.readlines()
+        for i in range(len(text_image)):
+
+            if text_image[i] != "\n":
+                if text_image[i][-1:] == "\n":
+                    if text_image[i][-2:] == "-\n":
+                        text_image[i] = text_image[i][:-2]
+                    else:
+                        text_image[i] = text_image[i][:-1]
+
+        text_file = open(path_basename+".txt", "w")
+        
+        for i in range(len(text_image)):
+            if i == 0:
+                text_file.write("<html>\n\t<head>\n\t\t<title>\n\t\t\tImage Content\n\t\t</title>\n\t</head>\n\t<body>\n\t\t<h1>\n")
+                text_file.write("\t\t\t"+text_image[i])
+                text_file.write("\n\t\t</h1>")
+            
+            elif text_image[i] == "\n" and i != 1 and i+1 != len(text_image):
+                text_file.write("\n\t\t</p>"+text_image[i]+"\t\t<p>\n")
+            
+            elif text_image[i] == "\n" and i == 1:
+                text_file.write(text_image[i]+"\t\t<p>\n")
+            
+            elif text_image[i-1] == "\n":
+                text_file.write("\t\t\t"+text_image[i])
+            
+            else:
+                text_file.write(text_image[i])
+            
+            if i+1 == len(text_image):
+                text_file.write("\n\t\t</p>"+text_image[i]+"\t</body>\n</html>")
+                            
 
 if __name__ == "__main__":
     main()
