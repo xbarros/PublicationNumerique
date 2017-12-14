@@ -50,29 +50,31 @@ def main():
                     # convertir le pdf en fichier image grace a imagemagic
                     path = pdf_to_tiff(path)
                     file_extension = ".tiff"
-                   
-                    reponse = messagebox.askyesno("Title","Do you want to analyse a all the picture ?")
-                    if not reponse:
-                        path, file_name, file_extension = select_img(path, file_name, file_extension)
-           
-                    # analyser l'image avec tesseract    
-                    xml_path = table_img(path, file_extension)
-                    os.chdir(os.path.normpath(path[:-len(file_name+file_extension)])) # revenir la ou on traite le fichier (optionel)
-                    
-                    #xml_path = "C:\Users\Xavier\Desktop\Projet\\PublicationNumerique\Traitement_hocr\petit2(1).xml" # pour des test.. a supprimer !
-                    
-                    # utiliser document xml et l'image pour trouver les coordonnees
-                    word = word_coord(xml_path)
-                    boite = boite_coord(path)
-                    print word
-                    # mettre les mots dans les boites
-                    word_table = word_in_box( word, boite )
-                    
-                    # transformer coordonnee de l'image en coordonnee excel
-                    contenu_excel = coord_excel(word_table)
-                    
-                    # creer tableau excel
-                    creer_xls(contenu_excel)
+
+                reponse = messagebox.askyesno("Title","Do you want to analyse a all the picture ?")
+                if not reponse:
+                    path, file_name, file_extension = select_img(path, file_name, file_extension)
+       
+                # analyser l'image avec tesseract    
+                xml_path = table_img(path, file_extension)
+                os.chdir(os.path.normpath(path[:-len(file_name+file_extension)])) # revenir la ou on traite le fichier (optionel)
+                
+                #xml_path = "C:\Users\Xavier\Desktop\Projet\\PublicationNumerique\Traitement_hocr\petit2(1).xml" # pour des test.. a supprimer !
+
+                # utiliser document xml et l'image pour trouver les coordonnees
+                word = word_coord(xml_path)
+                boite = boite_coord(path)
+                #print (word)
+
+                # mettre les mots dans les boites
+                word_table = word_in_box( word, boite )
+
+                # transformer coordonnee de l'image en coordonnee excel
+                contenu_excel = coord_excel(word_table)
+
+                # creer tableau excel
+                root.destroy()
+                creer_xls(contenu_excel)
 
     
 # choisir son fichier
@@ -209,11 +211,7 @@ def boite_coord(path_to_img):
                 if min_width < boxe[1].stop - boxe[1].start or min_width == None: # largeur min
                     if max_width > boxe[1].stop - boxe[1].start or max_width == None: # largeur max
                         panel_boxes.append([int(boxe[1].start), int(boxe[0].start), int(boxe[1].stop), int(boxe[0].stop)]) 
-                        
-    
-    imshow(img_tableau_noir)
-    show()
-    
+                           
     return panel_boxes
 
     
@@ -252,7 +250,7 @@ def word_coord(xml_path):
                         
             # ajouter valeur dans la liste des coordonnee
             bbox_coord.append(span_content[0])
-            print span_content, "2"
+            #print span_content, "2"
             
             all_word.append(bbox_coord)
             
@@ -317,26 +315,24 @@ def coord_excel(word_table):
     
     
 def creer_xls(contenu):
-
     # creer feuille excel
     wb = xlwt.Workbook(encoding="utf-8")
     ws = wb.add_sheet("XXX")
     # creer fenetre de dialogue
     root = Tkinter.Tk()
     root.withdraw() #use to hide tkinter window
-    
     # remplire la  feuille excel
     for i in range(len(contenu)):
         ws.write(contenu[i][1], contenu[i][0], contenu[i][2])
-
     # choisir le dossier de sauvegarde
     currdir = os.getcwd()
     path_to_save = tkFileDialog.askdirectory(parent=root, initialdir=currdir, title="Please select a directory to save your excel file")
-    
+
     # sauver le dossier excel 
     if len(path_to_save) > 0:
         print "You chose %s" % path_to_save
         wb.save(os.path.normpath(path_to_save)+"\image_to_excel.xls") 
+    
     # si pas de lien rentre, ne rien faire
     else:
         print "Le fichier n'a pas ete sauvegarde" 
