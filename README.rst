@@ -1,17 +1,26 @@
-# PublicationNumerique
+PublicationNumerique
+====================
 
-## Description
+Description
+-----------
+
 Avec analyse_text_img, convertissez un tableau ou un texte sous format pdf ou image en un tableau Excel ou en un fichier html ou txt
 
 Site utilisé pour intéragir avec mon script python: 
-## Fonctionnalités
+
+Fonctionnalités
+---------------
+
 Cette version est un prototype qui ne fonctionne que partiellement mais surtout avec  les images en annexe dans le dossier img.
 
-## Interface
+Interface
+---------
 
 ...
 
-## Dépendances
+Dépendances
+-----------
+
 Cette application interagit avec un script python. 
 Python 2.7 doit être installé.
 
@@ -30,7 +39,9 @@ Python utilise les packages suivants (déjà contenus dans le code, des installa
 - subprocess, 
 
 
-## Installation (Windows)
+Installation (Windows)
+----------------------
+
 - Python 2.7
 
     Allez sur https://www.python.org/downloads/ et suivez l'aide d'installation.
@@ -43,5 +54,7 @@ https://github.com/tesseract-ocr/tesseract/wiki/Downloads
 
 https://github.com/tesseract-ocr/tessdata
 
-## Auteurs
+Auteurs
+-------
+
 Cette application a été créée par Xavier BARROS dans le cadre du séminaire de Publication Numerique sous la supervision d'Isaac PANTE lors du semestre de automne 2017 à l'UNIL (Université de Lausanne).
