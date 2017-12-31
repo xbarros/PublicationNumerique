@@ -27,16 +27,16 @@ Python 2.7 doit être installé.
 Son installation est décrite dans la section "Installation" ci-dessous
 
 Python utilise les packages suivants (déjà contenus dans le code, des installations sont necessaries ):
-* xml.dom
-* PIL
-* pylab, 
-* tkMessageBox  
-* os,
-* scipy.ndimage,
-* xlwt,
-* Tkinter,
-* tkFileDialog,  
-* subprocess, 
+* ``xml.dom``
+* ``PIL``
+* ``pylab,`` 
+* ``tkMessageBox``  
+* ``os,``
+* ``scipy.ndimage,``
+* ``xlwt,``
+* ``Tkinter,``
+* ``tkFileDialog,``  
+* ``subprocess,`` 
 
 
 Installation (Windows)
