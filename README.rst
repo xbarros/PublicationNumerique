@@ -29,10 +29,6 @@ Lors du lancement du code, un choix l'utilisateur à la possibilité d'analyser 
 Après avoir choisi ce que vous vouliez analyser, une fenêtre s'ouvre pour aller chercher le fichier à analyser.
 
 Ce peut être un fichier pdf qui sera automatiquement transformer en image ou une image directement:
-
-.. figure:: img/2017-12-31_185455.png
-    :align: center
-    :alt: Advanced interface of the Text Tree widget
     
 Le fichier choisi peut être analyser dans sa totalité:
 
@@ -46,7 +42,13 @@ Si ce n'est pas le cas l'image s'affiche et il faut cliquer deux fois sur l'imag
     :align: center
     :alt: Advanced interface of the Text Tree widget
     
-Une fois ces opérations terminées, le script analyse l'image et renvoi un texte en ".txt" si vous aviez choisis un texte, sinon un tableau ".xlsx".
+Une fois ces opérations terminées, le script analyse l'image et renvoi un texte en ".txt" si vous aviez choisis un texte, sinon un tableau ".xlsx". 
+
+Une dernière fenètre s'ouvre pour que vous choisissiez le dossier de destination du nouveau fichier créé:
+
+.. figure:: img/2017-12-31_185455.png
+    :align: center
+    :alt: Advanced interface of the Text Tree widget
 
 
 Dépendances
@@ -57,19 +59,6 @@ Python 2.7 doit être installé.
 
 Son installation est décrite dans la section "Installation" ci-dessous
 
-<<<<<<< HEAD
-Python utilise les packages suivants (déjà contenus dans le code, des installations sont nécessaries ):
-- xml.dom
-- PIL
-- pylab, 
-- tkMessageBox  
-- os,
-- scipy.ndimage,
-- xlwt,
-- Tkinter,
-- tkFileDialog,  
-- subprocess, 
-=======
 Python utilise les packages suivants (déjà contenus dans le code, des installations sont necessaries ):
 
 * ``xml.dom``
@@ -91,7 +80,6 @@ Python utilise les packages suivants (déjà contenus dans le code, des installa
 * ``tkFileDialog,``  
 
 * ``subprocess,`` 
->>>>>>> origin/master
 
 
 Installation (Windows)
