@@ -6,8 +6,6 @@ Description
 
 Avec analyse_text_img, convertissez un tableau ou un texte sous format pdf ou image en un tableau Excel ou en un fichier html ou txt
 
-Site utilisé pour interagir avec mon script python: 
-
 Fonctionnalités
 ---------------
 
