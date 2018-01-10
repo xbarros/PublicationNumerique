@@ -1,5 +1,5 @@
-Transform pdf content
-=====================
+Transform pdf or img content
+============================
 
 Description
 -----------
